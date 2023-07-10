@@ -88,8 +88,8 @@ function movePiece(e:React.MouseEvent)
     {
         const minX = chessboard.offsetLeft - 19;
         const minY = chessClientRect.top - 19;
-        const maxX = chessboard.offsetLeft + chessboard.clientWidth;
-        const maxY = chessClientRect.top + chessClientRect.height ;
+        const maxX = chessboard.offsetLeft + chessboard.clientWidth - 70;
+        const maxY = chessClientRect.top + chessClientRect.height - 70;
         const x= e.clientX - 35;
         const y= e.clientY - 35;
         activePiece.style.position="absolute";
