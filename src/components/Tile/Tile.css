@@ -1,17 +1,16 @@
 .tile{
     display: grid;
     place-content: center;
-    width:70px;
-    height:70px;
+    width: 75px;
+    height:75px;
 }
 
 .chess-piece{
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: 60px;
-
 }
 
 .chess-piece:hover{
@@ -22,20 +21,10 @@
     cursor:grabbing;
 }
 
-.black-tile{
-    display: grid;
-    place-content: center;  
+.tile.black-tile{
     background-color: #779556;
 }
 
-.white-tile{
-    display: grid;
-    place-content: center;  
+.tile.white-tile{
     background-color: #ebecd0;
 }
-
-.img{
-    height: 50px;
-    width: 50px;
-}
-

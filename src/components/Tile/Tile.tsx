@@ -6,20 +6,9 @@ interface Props{
     number : number;
 }
 
-export default function Tile({image,number} : Props   )
+export default function Tile({image,number} : Props )
 {
-    if(number%2===0)
-    {
-        return(
-            <div className="black-tile">
-                {image && <div style={{backgroundImage: `url(${image})`}} className='chess-piece'></div>}
-            </div>
-        );
-    }  
-    else
-    {
-        return(<div className='white-tile'>
-            {image && <div style={{backgroundImage: `url(${image})`}} className='chess-piece'></div>}
-        </div>)
-    }
+    let color;
+    color = number % 2 === 0 ? 'black' : 'white';
+    return(<div className= {`tile ${color}-tile`}>{image && <div style={{backgroundImage: `url(${image})`}} className='chess-piece'></div>}</div>);
 }
