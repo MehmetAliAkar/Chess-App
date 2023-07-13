@@ -160,13 +160,15 @@ export default function ChessBoard() {
     const chessClientRect = chessboard!.getBoundingClientRect();
     if (element.classList.contains("chess-piece") && chessboard) {
       // Get the grid element at the current mouse position
-      const gridElement = document.elementFromPoint(e.clientX, e.clientY);
-      console.log(gridElement);
+      const gridElement = document.elementsFromPoint(e.clientX, e.clientY).find(el => el.getAttribute("data-x") != null);
       // Get the grid coordinates from the grid element
-      const gridX = parseInt(gridElement.getAttribute("data-x"));
-      const gridY = parseInt(gridElement.getAttribute("data-y"));
+      const gridX = Number(gridElement?.getAttribute("data-x"));
+      const gridY = Number(gridElement?.getAttribute("data-y"));
       setGridX(gridX);
       setGridY(gridY);
+      console.log(gridElement);
+      console.log(gridX);
+      console.log(gridY);
   
       const x = e.clientX - 40;
       const y = e.clientY - 40;
@@ -211,43 +213,55 @@ export default function ChessBoard() {
 
   function dropPiece(e: React.MouseEvent) {
     const chessboard = ChessBoardRef.current;
-    const chessClientRect = chessboard!.getBoundingClientRect();
-    if (activePiece && chessboard) {
-      let x = (e.clientX - chessClientRect.left) / 100;
-      let y = Math.abs((e.clientY - chessClientRect.top - 600) / 100);
-      if (x > 1.5) {
-        x += 1;
-      }
-      if (x > 5.5) {
-        x++;
-      }
-      x = Math.floor(x);
+    const gridElement = document.elementsFromPoint(e.clientX, e.clientY).find(el => el.getAttribute("data-x") != null);
+      // Get the grid coordinates from the grid element
+      const tileX = Number(gridElement?.getAttribute("data-x"));
+      const tileY = Number(gridElement?.getAttribute("data-y"));
+    // const chessClientRect = chessboard!.getBoundingClientRect();
+    // if (activePiece && chessboard) {
+    //   let x = (e.clientX - chessClientRect.left) / 100;
+    //   let y = Math.abs((e.clientY - chessClientRect.top - 600) / 100);
+    //   if (x > 1.5) {
+    //     x += 1;
+    //   }
+    //   if (x > 5.5) {
+    //     x++;
+    //   }
+    //   x = Math.floor(x);
 
-      if (y > 1.5) {
-        y += 1;
-      }
-      if (y > 5.5) {
-        y++;
-      }
-      y = Math.floor(y);
+    //   if (y > 1.5) {
+    //     y += 1;
+    //   }
+    //   if (y > 5.5) {
+    //     y++;
+    //   }
+    //   y = Math.floor(y);
 
-      console.log(x, y);
-      console.log(gridX, gridY);
-      setPieces((value) => {
-        const pieces = value.map((p) => {
+    //   console.log(x, y);
+    //   console.log(gridX, gridY);
+
+      if (!(tileX === gridX && tileY === gridY)) {
+        const pieceToDie = pieces.find(p => p.x === tileX && p.y === tileY);
+        if (pieceToDie) {
+          pieceToDie.x = -1;
+          pieceToDie.y = -1;
+        }
+
+        const updatedPieces = pieces.map((p) => {
           if (p.x === gridX && p.y === gridY) {
-            p.x = x;
-            p.y = y;
+            p.x = tileX;
+            p.y = tileY;
           }
           return p;
         });
-        return pieces;
-      });
-      setActivePiece(null);
-    }
-  }
-  let board = [];
 
+        setPieces(updatedPieces);
+      }
+
+      setActivePiece(null);
+  }
+
+  let board: React.JSX.Element[] = [];
   for (let j = verticalAxis.length - 1; j >= 0; j--) {
     for (let i = 0; i < horizontalAxis.length; i++) {
       const number = j + i + 2;
@@ -258,7 +272,7 @@ export default function ChessBoard() {
           image = p.image;
         }
       });
-      board.push(<Tile key={`${j},${i}`} image={image} number={number} />);
+      board.push(<Tile posx={i} posy={j} key={`${j},${i}`} image={image} number={number} />);
     }
   }
 
