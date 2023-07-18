@@ -28,3 +28,31 @@
 .tile.white-tile{
     background-color: #ebecd0;
 }
+
+.log-container {
+    text-align: center;
+    position: fixed;
+    left: 10px;
+    top: 100px;
+    background-color: #78a574;
+    padding: 10px;
+    border: 1px solid #87bb7a;
+    max-height: 400px;
+    overflow-y: auto;
+    width: 200px;
+  }
+  
+  .log-container ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .log-container li {
+    margin-bottom: 5px;
+  }
+  
+  .log-container button.active {
+    background-color: yellow;
+  }
+  

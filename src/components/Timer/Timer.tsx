@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./Timer.css";
+import React from "react";
 
 function Timer() {
   let [bseconds, setbSeconds] = useState(300);
@@ -72,5 +73,6 @@ function Timer() {
     </div>
   );
 }
+
 
 export default Timer;
