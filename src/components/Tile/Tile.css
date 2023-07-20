@@ -37,7 +37,7 @@
     background-color: #78a574;
     padding: 10px;
     border: 1px solid #87bb7a;
-    max-height: 400px;
+    max-height: 250px;
     overflow-y: auto;
     width: 200px;
   }
@@ -55,4 +55,26 @@
   .log-container button.active {
     background-color: yellow;
   }
-  
+
+  .captured-pieces-pool {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    background-color: #50854e;
+    padding: 10px;
+    border: 1px solid#50854e;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 200px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .captured-pieces-pool img {
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    cursor: pointer;
+  }
