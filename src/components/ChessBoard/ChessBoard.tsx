@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import "./ChessBoard.css";
 import Tile from "../Tile/Tile.tsx";
-import { act } from "react-dom/test-utils";
 
 const verticalAxis = ["1", "2", "3", "4", "5", "6", "7", "8"];
 const horizontalAxis = ["a", "b", "c", "d", "e", "f", "g", "h"];
@@ -46,7 +45,7 @@ const pieceImages = {
 const initialBoardState: Piece[] = [];
 
 for (let p = 0; p < 2; p++) {
-  const teamType = p === 0 ? TeamType.BLACK : TeamType.WHITE;
+  // const teamType = p === 0 ? TeamType.BLACK : TeamType.WHITE;
 
   for (let i = 0; i < 8; i++) {
     initialBoardState.push({
@@ -298,11 +297,6 @@ export default function ChessBoard() {
     }
   }
 
-  function removeProperty(piece: Piece) {
-    piece.x = gridX;
-    piece.y = gridY;
-  }
-
   function dropPiece(e: React.MouseEvent) {
     const gridElement = document
       .elementsFromPoint(e.clientX, e.clientY)
@@ -313,7 +307,7 @@ export default function ChessBoard() {
     if (!(tileX === gridX && tileY === gridY)) {
       const pieceToDie = pieces.find((p) => p.x === tileX && p.y === tileY);
       if (pieceToDie) {
-        setPool((prevCapturedPieces)=>[...prevCapturedPieces, pieceToDie]);
+        setPool((prevCapturedPieces) => [...prevCapturedPieces, pieceToDie]);
         pieceToDie.x = -1;
         pieceToDie.y = -1;
       }
@@ -324,21 +318,18 @@ export default function ChessBoard() {
       if (movedPiece) {
         const pieceImage = movedPiece.image.slice(13, -4); //passed the asset/images part
         const eatenImage = eatenPiece?.image.slice(13, -4);
-        let moveLog = `${pieceImage} (${gridX + 1}, ${gridY + 1}) -> (${
-          tileX + 1
-        }, ${tileY + 1})`;
+        let moveLog = `${pieceImage} ${convertTheNumbers(gridX + 1)}${gridY + 1} -> ${convertTheNumbers(tileX + 1)}${tileY + 1}`;
         const isSquareOccupied = (x: number, y: number, pieces: Piece[]) =>
           pieces.some((piece) => piece.x === x && piece.y === y);
         if (isSquareOccupied(tileX, tileY, pieces)) {
-          moveLog = `${pieceImage} (${gridX + 1}, ${
+          moveLog = `${pieceImage} (${convertTheNumbers(gridX + 1)}, ${
             gridY + 1
-          }) -> ${eatenImage} (${tileX + 1}, ${tileY + 1})`;
+          }) -> ${eatenImage} (${convertTheNumbers(tileX + 1)}, ${tileY + 1})`;
         }
 
-        
         setMoves((prevMoves) => [...prevMoves, moveLog]);
 
-        setPieces((value) => {  
+        setPieces((value) => {
           const updatedPieces = value.map((p) => {
             if (p.x === gridX && p.y === gridY) {
               p.x = tileX;
@@ -444,6 +435,17 @@ export default function ChessBoard() {
     );
   }
 
+  function convertTheNumbers(num: number) {
+    if (num === 1) return "A";
+    else if (num === 2) return "B";
+    else if (num === 3) return "C";
+    else if (num === 4) return "D";
+    else if (num === 5) return "E";
+    else if (num === 6) return "F";
+    else if (num === 7) return "G";
+    else if (num === 8) return "H";
+  }
+
   function handleMoveClick(index: number) {
     const updatedMoves = moves.slice(0, index + 1);
     setMoves(updatedMoves);
@@ -455,7 +457,7 @@ export default function ChessBoard() {
   return (
     <div
       onMouseMove={(e) => movePiece(e)}
-      onMouseDown={(e) => grabPiece(e)} 
+      onMouseDown={(e) => grabPiece(e)}
       onMouseUp={(e) => dropPiece(e)}
       id="ChessBoard"
       ref={ChessBoardRef}
